@@ -1,11 +1,14 @@
 package com.test.TestTask.services;
 
+import com.test.TestTask.exceptions.DishAlreadyExistException;
+import com.test.TestTask.exceptions.DishNotFoundException;
 import com.test.TestTask.model.Dish;
 import com.test.TestTask.repositories.DishRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DishService {
@@ -18,8 +21,17 @@ public class DishService {
     }
 
     public void save(Dish dish) {
+        Optional<Dish> dishOptional = dishRepository.findDishByName(dish.getName());
+        if (dishOptional.isPresent()) {
+            throw new DishAlreadyExistException("Dish already exist");
+        }
         dishRepository.save(dish);
     }
+
+//    public Dish getDishByName(String name) {
+//        Optional<Dish> dish = dishRepository.findDishByName(name);
+//        return dish.orElseThrow(DishNotFoundException::new);
+//    }
 
     public List<Dish> findAll() {
         return dishRepository.findAll();

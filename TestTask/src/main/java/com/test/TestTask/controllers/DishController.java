@@ -1,5 +1,6 @@
 package com.test.TestTask.controllers;
 
+import com.test.TestTask.exceptions.DishAlreadyExistException;
 import com.test.TestTask.exceptions.DishNotCreatedException;
 import com.test.TestTask.exceptions.UserNotCreatedException;
 import com.test.TestTask.model.Dish;
@@ -53,5 +54,11 @@ public class DishController {
     private ResponseEntity<ResponseError> handleException(DishNotCreatedException e) {
         ResponseError response = new ResponseError(e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<ResponseError> handleException(DishAlreadyExistException e) {
+        ResponseError response = new ResponseError(e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
 }
