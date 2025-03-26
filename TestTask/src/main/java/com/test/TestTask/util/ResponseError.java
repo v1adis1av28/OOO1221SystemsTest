@@ -1,8 +1,8 @@
 package com.test.TestTask.util;
 
-public class UserResponseError {
+public class ResponseError {
     private String message;
-    public UserResponseError(String message) {
+    public ResponseError(String message) {
         this.message = message;
     }
 

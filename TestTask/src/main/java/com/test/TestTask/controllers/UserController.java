@@ -4,7 +4,7 @@ import com.test.TestTask.exceptions.UserNotCreatedException;
 import com.test.TestTask.model.User;
 import com.test.TestTask.services.UserService;
 import com.test.TestTask.exceptions.UserNotFoundException;
-import com.test.TestTask.util.UserResponseError;
+import com.test.TestTask.util.ResponseError;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,14 +56,14 @@ public class UserController {
 
 
     @ExceptionHandler
-    private ResponseEntity<UserResponseError> handleException(UserNotFoundException e) {
-        UserResponseError response = new UserResponseError("Person with this id wasn`t found!");
+    private ResponseEntity<ResponseError> handleException(UserNotFoundException e) {
+        ResponseError response = new ResponseError("Person with this id wasn`t found!");
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    private ResponseEntity<UserResponseError> handleException(UserNotCreatedException e) {
-        UserResponseError response = new UserResponseError(e.getMessage());
+    private ResponseEntity<ResponseError> handleException(UserNotCreatedException e) {
+        ResponseError response = new ResponseError(e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

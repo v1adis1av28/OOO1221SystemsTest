@@ -2,6 +2,7 @@ package com.test.TestTask.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -34,11 +35,14 @@ public class User implements Serializable {
     private String email;
 
     @Column(name = "age")
+    @Min(value=18, message = "You can use service after you are 18")
     private int age;
 
     @Column(name="weight")
+    @Min(value = 30)
     private double weight;
 
+    @Min(value = 120)
     @Column(name="height")
     private double height;
 
