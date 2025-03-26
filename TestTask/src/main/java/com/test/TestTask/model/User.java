@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -49,6 +50,19 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "goal")
     private Goal goal;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender")
+    @NotNull(message = "Gender value can`t be empty")
+    private Gender gender;
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
 
     @Column(name="daily_calories")
     private float dailyCalories;

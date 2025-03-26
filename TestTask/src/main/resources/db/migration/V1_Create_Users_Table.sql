@@ -6,6 +6,6 @@ CREATE TABLE USERS(
     weight float check ( weight > 0),
     height float check(height > 0),
     goal varchar not null,
-    daily_calories float check ( daily_calories > 0)
-
+    daily_calories float check ( daily_calories > 0),
+    gender varchar default ('MALE') not null
 );

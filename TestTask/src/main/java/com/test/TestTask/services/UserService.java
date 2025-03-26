@@ -28,7 +28,17 @@ public class UserService {
     }
 
     public void save(User user) {
+        user.setDailyCalories((float) Math.ceil(calculateDailyCalories(user)));
         userRepository.save(user);
+    }
+
+    private float calculateDailyCalories(User user)
+    {
+        if(user.getGender().toString().toLowerCase().equals("male"))
+            return (float) (13.75*user.getWeight() + (5*user.getHeight()) - (6.75* user.getAge()) + 66.473);
+        else
+            return (float) (9.56 * user.getWeight() + ( 1.8 * user.getHeight()) - (4.67 * user.getAge()) + 655);
+
     }
 
     public List<User> findAll()
