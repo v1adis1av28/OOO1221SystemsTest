@@ -2,11 +2,12 @@ package com.test.TestTask.controllers;
 
 import com.test.TestTask.model.User;
 import com.test.TestTask.services.UserService;
+import com.test.TestTask.util.UserNotFoundException;
+import com.test.TestTask.util.UserResponseError;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,7 +24,22 @@ public class UserController {
 
     @GetMapping
     public List<User> getAllUsers() {
-        
+        return userService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public User getUserById(@PathVariable("id") int id) {
+        return userService.getUserById(id);
+    }
+
+
+
+    @ExceptionHandler
+    private ResponseEntity<UserResponseError> handleException(UserNotFoundException e) {
+        UserResponseError response = new UserResponseError(
+                "Person with this id wasn`t found!"
+        );
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
 }

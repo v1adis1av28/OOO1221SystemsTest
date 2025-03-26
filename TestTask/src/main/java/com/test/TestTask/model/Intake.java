@@ -22,7 +22,7 @@ public class Intake {
     @Column(name="id")
     private int id;
 
-    @Column(name="userId")
+    @JoinColumn(name="userId", referencedColumnName = "id")
     @ManyToOne
     private User user;
 
