@@ -28,11 +28,6 @@ public class DishService {
         dishRepository.save(dish);
     }
 
-//    public Dish getDishByName(String name) {
-//        Optional<Dish> dish = dishRepository.findDishByName(name);
-//        return dish.orElseThrow(DishNotFoundException::new);
-//    }
-
     public List<Dish> findAll() {
         return dishRepository.findAll();
     }
