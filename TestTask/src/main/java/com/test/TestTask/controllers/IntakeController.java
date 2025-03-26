@@ -3,7 +3,9 @@ package com.test.TestTask.controllers;
 
 import com.test.TestTask.DTO.IntakeDTO;
 import com.test.TestTask.exceptions.DishNotFoundException;
+import com.test.TestTask.exceptions.EmptyIntakeException;
 import com.test.TestTask.exceptions.UserNotCreatedException;
+import com.test.TestTask.exceptions.UserNotFoundException;
 import com.test.TestTask.model.Intake;
 import com.test.TestTask.services.IntakeService;
 import com.test.TestTask.util.ResponseError;
@@ -42,6 +44,18 @@ public class IntakeController {
 
     @ExceptionHandler
     private ResponseEntity<ResponseError> handleException(DishNotFoundException e) {
+        ResponseError response = new ResponseError(e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<ResponseError> handleException(UserNotFoundException e) {
+        ResponseError response = new ResponseError("User with that id does not exist");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<ResponseError> handleException(EmptyIntakeException e) {
         ResponseError response = new ResponseError(e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }

@@ -3,6 +3,7 @@ package com.test.TestTask.services;
 
 import com.test.TestTask.DTO.IntakeDTO;
 import com.test.TestTask.exceptions.DishNotFoundException;
+import com.test.TestTask.exceptions.EmptyIntakeException;
 import com.test.TestTask.model.Dish;
 import com.test.TestTask.model.DishIntake;
 import com.test.TestTask.model.Intake;
@@ -36,6 +37,10 @@ public class IntakeService {
 
     public void save(IntakeDTO intakeDTO)
     {
+        if(intakeDTO.getDishesName().isEmpty())
+        {
+            throw new EmptyIntakeException("You need to add at least one dish");
+        }
         Intake intake = intakeRepository.save(convertToIntake(intakeDTO));
         updateDishIntakes(intake, intakeDTO.getDishesName());
     }
