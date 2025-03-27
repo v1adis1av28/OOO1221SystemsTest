@@ -52,7 +52,7 @@ public class IntakeService {
         for(String name : dishesName)
         {
             DishIntake dishIntake = new DishIntake();
-            Optional<Dish> dish = dishRepository.findDishByName(name);
+            Optional<Dish> dish = dishRepository.findDishByName(name.toLowerCase());
             dishIntake.setDish(dish.orElseThrow(() -> new DishNotFoundException("Dish with name " + name +" not found")));
             dishIntake.setIntake(intake);
             dishIntakeService.save(dishIntake);
@@ -92,17 +92,34 @@ public class IntakeService {
 
     public List<IntakeDTO> getDailyIntakes(int id)
     {
-        List<IntakeDTO> dtos = new ArrayList<>();
+        List<Intake> dailyIntake = new ArrayList<>();
         for(Intake intake : getUserIntakes(id))
         {
-            if()
+            if(intake.getDate().getDayOfYear() == LocalDate.now().getDayOfYear())
+            {
+                dailyIntake.add(intake);
+            }
         }
+        return convertToDTO(dailyIntake);
     }
 
-    private boolean isDateInLas24Hours(LocalDate date)
-    {
-        LocalDate now = LocalDate.now();
-        LocalDate twentyFourHoursAgo = now.minusDays(1);
-        return !date.isBefore(twentyFourHoursAgo) && !date.isAfter(twentyFourHoursAgo);
+
+    public int countCalories(List<IntakeDTO> userIntakes) {
+        int sum = 0;
+
+        for (IntakeDTO intakeDTO : userIntakes) {
+            List<Dish> dishes = intakeDTO.getDishesName().stream()
+                    .map(dishName -> dishRepository.findDishByName(dishName.toLowerCase()))
+                    .flatMap(Optional::stream)
+                    .collect(Collectors.toList());
+
+            int calories = dishes.stream()
+                    .mapToInt(dish -> (int) dish.getCalorie())
+                    .sum();
+
+            sum += calories;
+        }
+
+        return sum;
     }
 }

@@ -21,10 +21,11 @@ public class DishService {
     }
 
     public void save(Dish dish) {
-        Optional<Dish> dishOptional = dishRepository.findDishByName(dish.getName());
+        Optional<Dish> dishOptional = dishRepository.findDishByName(dish.getName().toLowerCase());
         if (dishOptional.isPresent()) {
             throw new DishAlreadyExistException("Dish already exist");
         }
+        dish.setName(dish.getName().toLowerCase());
         dishRepository.save(dish);
     }
 
