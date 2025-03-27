@@ -1,6 +1,7 @@
 package com.test.TestTask.services;
 
 
+import com.test.TestTask.DTO.CalorieCheckDTO;
 import com.test.TestTask.DTO.IntakeDTO;
 import com.test.TestTask.exceptions.DishNotFoundException;
 import com.test.TestTask.exceptions.EmptyIntakeException;
@@ -119,7 +120,13 @@ public class IntakeService {
 
             sum += calories;
         }
-
         return sum;
+    }
+
+    public CalorieCheckDTO checkCalories(int id) {
+        CalorieCheckDTO dto = new CalorieCheckDTO();
+        dto.setCurrentCalorieCount(countCalories(getDailyIntakes(id)));;
+        dto.setUserDailyCalorie(userService.getUserById(id).getDailyCalories());
+        return dto;
     }
 }
