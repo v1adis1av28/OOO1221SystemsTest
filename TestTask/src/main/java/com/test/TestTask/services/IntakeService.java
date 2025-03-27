@@ -85,4 +85,24 @@ public class IntakeService {
         }
         return dtos;
     }
+
+    public List<Intake> getUserIntakes(int id) {
+        return intakeRepository.getIntakesByUser(userService.getUserById(id));
+    }
+
+    public List<IntakeDTO> getDailyIntakes(int id)
+    {
+        List<IntakeDTO> dtos = new ArrayList<>();
+        for(Intake intake : getUserIntakes(id))
+        {
+            if()
+        }
+    }
+
+    private boolean isDateInLas24Hours(LocalDate date)
+    {
+        LocalDate now = LocalDate.now();
+        LocalDate twentyFourHoursAgo = now.minusDays(1);
+        return !date.isBefore(twentyFourHoursAgo) && !date.isAfter(twentyFourHoursAgo);
+    }
 }
