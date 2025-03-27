@@ -1,16 +1,16 @@
 package com.test.TestTask.services;
 
-import com.test.TestTask.DTO.CalorieCheckDTO;
-import com.test.TestTask.DTO.DailyReportDTO;
-import com.test.TestTask.DTO.IntakeDTO;
+import com.test.TestTask.DTO.*;
 import com.test.TestTask.model.DishIntake;
 import com.test.TestTask.model.Intake;
 import com.test.TestTask.model.User;
+import com.test.TestTask.util.LocalDateSortingComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,5 +42,41 @@ public class ReportService {
         else
             dto.setMessage("Calorie check successful! You have " + (dto.getUserDailyCalorie()-dto.getCurrentCalorieCount()) + " calories left.");
         return dto;
+    }
+
+    public HistoryDTO getHistoryReport(int id) {
+        HistoryDTO dto = new HistoryDTO();
+        dto.setUserId(id);
+        // 1) получаем все интэйки пользователя
+        // 2) сортируем по дате
+        // 3) создаем отдельные дтошки
+        List<Intake> userAllIntakes = intakeService.getUserIntakes(id);
+        Collections.sort(userAllIntakes, new LocalDateSortingComparator());
+
+        HashSet<LocalDate> dates = getDates(userAllIntakes);//Сет дат когда пользователь добавлял еду
+        for (LocalDate date : dates) {
+            DaysIntakeDTO daysIntakeDTO = new DaysIntakeDTO();
+            daysIntakeDTO.setDate(date);
+
+            List<IntakeDTO> intakesByDate = intakeService.convertToDTO(intakeService.getIntakesByDate(date,id));
+            List<String> dishNames = intakesByDate.stream()
+                    .flatMap(intakeDTO -> intakeDTO.getDishesName().stream())
+                    .collect(Collectors.toList());
+
+            daysIntakeDTO.setDishesName(dishNames);
+            dto.getDaysIntakeList().add(daysIntakeDTO);
+        }
+        return dto;
+    }
+
+    private HashSet<LocalDate> getDates(List<Intake> userAllIntakes) {
+        HashSet<LocalDate> dates = new HashSet<>();
+        for(Intake intake : userAllIntakes) {
+            if(!dates.contains(intake.getDate()))
+                dates.add(intake.getDate());
+            else
+                continue;
+        }
+        return dates;
     }
 }

@@ -1,5 +1,6 @@
 package com.test.TestTask.controllers;
 
+import com.test.TestTask.DTO.UserDTO;
 import com.test.TestTask.exceptions.UserNotCreatedException;
 import com.test.TestTask.model.User;
 import com.test.TestTask.services.UserService;
@@ -29,13 +30,14 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getAllUsers() {
-        return userService.findAll();
+    public List<UserDTO> getAllUsers() {
+        return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable("id") int id) {
-        return userService.getUserById(id);
+    public UserDTO getUserById(@PathVariable("id") int id) {
+        UserDTO userDTO = userService.convertToDTO(userService.getUserById(id));
+        return userDTO;
     }
 
     @PostMapping

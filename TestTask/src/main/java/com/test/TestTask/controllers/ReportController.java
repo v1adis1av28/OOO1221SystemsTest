@@ -2,6 +2,7 @@ package com.test.TestTask.controllers;
 
 import com.test.TestTask.DTO.CalorieCheckDTO;
 import com.test.TestTask.DTO.DailyReportDTO;
+import com.test.TestTask.DTO.HistoryDTO;
 import com.test.TestTask.exceptions.DishNotFoundException;
 import com.test.TestTask.exceptions.IllegalRequestParametrException;
 import com.test.TestTask.exceptions.UserNotFoundException;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/report")
@@ -39,6 +42,14 @@ public class ReportController {
         return reportService.getCalorieCheckReport(Integer.parseInt(id));
     }
 
+    @GetMapping("/history")
+    public HistoryDTO getHistory(@RequestParam("userId") String id) {
+        if (id.isEmpty() || !id.matches(".*\\d.*"))
+            throw new IllegalRequestParametrException("Illegal request parameter");
+        return reportService.getHistoryReport(Integer.parseInt(id));
+    }
+
+
     @ExceptionHandler
     private ResponseEntity<ResponseError> handleException(UserNotFoundException e) {
         ResponseError response = new ResponseError("User with that id does not exist");
@@ -55,7 +66,7 @@ public class ReportController {
         ResponseError response = new ResponseError(e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
-//- проверка, уложился ли пользователь в свою дневную норму калорий;
-//- история питания по дням.
+
+// - история питания по дням.
 
 }

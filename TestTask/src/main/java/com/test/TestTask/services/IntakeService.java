@@ -75,7 +75,7 @@ public class IntakeService {
         return convertToDTO(intakes);
     }
 
-    private List<IntakeDTO> convertToDTO(List<Intake> intakes) {
+    public List<IntakeDTO> convertToDTO(List<Intake> intakes) {
         List<IntakeDTO> dtos = new ArrayList<>();
         for(Intake intake : intakes)
         {
@@ -107,7 +107,6 @@ public class IntakeService {
 
     public int countCalories(List<IntakeDTO> userIntakes) {
         int sum = 0;
-
         for (IntakeDTO intakeDTO : userIntakes) {
             List<Dish> dishes = intakeDTO.getDishesName().stream()
                     .map(dishName -> dishRepository.findDishByName(dishName.toLowerCase()))
@@ -128,5 +127,9 @@ public class IntakeService {
         dto.setCurrentCalorieCount(countCalories(getDailyIntakes(id)));;
         dto.setUserDailyCalorie(userService.getUserById(id).getDailyCalories());
         return dto;
+    }
+
+    public List<Intake> getIntakesByDate(LocalDate date, int id) {
+        return intakeRepository.getIntakeByDateAndUser(date,userService.getUserById(id));
     }
 }
