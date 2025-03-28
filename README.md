@@ -343,8 +343,7 @@ GET http://localhost:8080/report/history?userId=10
   ```bash
   docker logs testtask_app
   ```
-- **Тесты** Функционал сервисы покрыт тестами с использованием Mockito и JUnit, ознакомиться с ними можно в папке src/test/java/com/test/TestTask/services/
-- 
+- **Тесты**: Функционал сервисы покрыт тестами с использованием Mockito и JUnit, ознакомиться с ними можно в папке src/test/java/com/test/TestTask/services/
 - **Переменные окружения:** Все параметры подключения к базе данных настраиваются через переменные окружения в `docker-compose.yml`.
 
 
