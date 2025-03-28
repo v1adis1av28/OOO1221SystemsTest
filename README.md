@@ -1,9 +1,4 @@
 # 1221SystemsTest
-Конечно! Вот переписанный `README.md` файл, который вы можете скопировать и вставить в свой репозиторий. Он адаптирован для удобного использования в GitHub.
-
----
-
-# Calorie Tracker API
 
 REST API для отслеживания дневной нормы калорий пользователя и учета съеденных блюд.
 
@@ -35,8 +30,8 @@ REST API для отслеживания дневной нормы калори�
 ### Шаги для запуска
 1. Склонируйте репозиторий:
    ```bash
-   git clone https://github.com/your-repo-url.git
-   cd your-repo-folder
+   git clone https://github.com/v1adis1av28/OOO1221SystemsTest.git
+   cd ooo1221SystemsTest && cd TestTask
    ```
 
 2. Запустите приложение и базу данных через Docker Compose:
@@ -223,36 +218,124 @@ Content-Type: application/json
     "dishesName": ["Spagheti", "scramble", "Tea"]
 }
 ```
+#### Получение всех приемов пищи (`GET /intake`)
+Запрос:
+```json
+GET http://localhost:8080/intake
+```
+Ответ:
+```json
+[
+   {
+        "userId": 6,
+        "dishesName": [
+            "okroshka"
+        ]
+    },
+    {
+        "userId": 10,
+        "dishesName": [
+            "scramble",
+            "okroshka"
+        ]
+    },
+    {
+        "userId": 11,
+        "dishesName": [
+            "scramble",
+            "okroshka"
+        ]
+    },
+    {
+        "userId": 11,
+        "dishesName": [
+            "scramble"
+        ]
+    }
+]
+```
 
 ---
 
 ### 4. Отчеты
 
-#### Отчет за день (`GET /reports/daily/{userId}`)
+#### Отчет за день (`GET /reports/daily?userId={userId}`)
 Запрос:
 ```bash
-GET http://localhost:8080/reports/daily/2
+GET http://localhost:8080/report/daily?userId=10
 ```
 
-#### Проверка калорий (`GET /reports/calorie-check/{userId}`)
+Ответ(если пользователь не добавил ничего сегодня  ):
+```json
+[
+   {
+    "userId": 10,
+    "calorieCount": 0,
+    "intakeCount": 0,
+    "dishNameList": []
+  }
+]
+```
+Ответ(если добавил сегодня):
+```json
+{
+    "userId": 10,
+    "calorieCount": 530,
+    "intakeCount": 2,
+    "dishNameList": [
+        [
+            "scramble"
+        ],
+        [
+            "okroshka"
+        ]
+    ]
+}
+```
+
+#### Проверка калорий (`GET /reports/check?userId={userId}`)
 Запрос:
 ```bash
-GET http://localhost:8080/reports/calorie-check/2
+GET http://localhost:8080/report/check?userId=10
+```
+Ответ():
+```json
+{
+    "userDailyCalorie": 1360.0,
+    "currentCalorieCount": 530.0,
+    "message": "Calorie check successful! You have 830.0 calories left."
+}
 ```
 
-#### История питания (`GET /reports/history/{userId}`)
+
+#### История питания (`GET /reports/history?userId={userId}`)
 Запрос:
 ```bash
-GET http://localhost:8080/reports/history/2
+GET http://localhost:8080/report/history?userId=10
+```
+Ответ():
+```json
+{
+    "userId": 10,
+    "daysIntakeList": [
+        {
+            "date": "2025-03-28",
+            "dishesName": [
+                "scramble",
+                "okroshka"
+            ]
+        },
+        {
+            "date": "2025-03-27",
+            "dishesName": [
+                "scramble",
+                "okroshka"
+            ]
+        }
+    ]
+}
 ```
 
----
-
-## Postman-коллекция
-
-Вы можете использовать [Postman-коллекцию](postman-collection/CalorieTracker.postman_collection.json) для тестирования API. Она содержит все примеры запросов, описанные выше.
-
----
 
 ## Дополнительная информация
 
@@ -260,15 +343,8 @@ GET http://localhost:8080/reports/history/2
   ```bash
   docker logs testtask_app
   ```
-
-- **Миграции:** Если вы меняете структуру базы данных, добавьте новые миграционные скрипты в папку `src/main/resources/db/migration`.
-
+- **Тесты** Функционал сервисы покрыт тестами с использованием Mockito и JUnit, ознакомиться с ними можно в папке src/test/java/com/test/TestTask/services/
+- 
 - **Переменные окружения:** Все параметры подключения к базе данных настраиваются через переменные окружения в `docker-compose.yml`.
 
----
 
-Если у вас возникнут вопросы или потребуется помощь, обращайтесь! 😊
-
----
-
-Теперь вы можете скопировать этот текст и вставить его в файл `README.md` вашего репозитория. Не забудьте заменить `https://github.com/your-repo-url.git` на реальный URL вашего репозитория.
