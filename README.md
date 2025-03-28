@@ -89,7 +89,7 @@ Content-Type: application/json
 }
 ```
 
-Ошибка (при некорректных данных):
+Ошибка (при некорректных данных, например при некорректно введенном возрасте):
 ```json
 {
     "message": "age-You can use service after you are 18;"
