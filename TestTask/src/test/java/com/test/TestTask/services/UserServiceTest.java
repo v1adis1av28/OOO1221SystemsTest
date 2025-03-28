@@ -1,13 +1,11 @@
 package com.test.TestTask.services;
 
 
-import com.test.TestTask.exceptions.UserNotCreatedException;
 import com.test.TestTask.exceptions.UserNotFoundException;
 import com.test.TestTask.model.Gender;
 import com.test.TestTask.model.Goal;
 import com.test.TestTask.model.User;
 import com.test.TestTask.repositories.UserRepository;
-import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -43,7 +41,6 @@ public class UserServiceTest {
 
     @Test
     public void testInvalidUserCreation() {
-        // Arrange
         User user = new User();
         user.setAge(18);
         user.setUsername("test");
@@ -72,7 +69,6 @@ public class UserServiceTest {
         assertThrows(UserNotFoundException.class, () -> {
             userService.getUserById(-1);
         });
-
     }
 
 }
