@@ -2,7 +2,6 @@ package com.test.TestTask.util;
 
 import com.test.TestTask.model.Intake;
 
-import java.time.LocalDate;
 import java.util.Comparator;
 
 public class LocalDateSortingComparator implements Comparator<Intake> {

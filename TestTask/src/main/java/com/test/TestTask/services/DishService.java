@@ -1,7 +1,6 @@
 package com.test.TestTask.services;
 
 import com.test.TestTask.exceptions.DishAlreadyExistException;
-import com.test.TestTask.exceptions.DishNotFoundException;
 import com.test.TestTask.model.Dish;
 import com.test.TestTask.repositories.DishRepository;
 import org.springframework.beans.factory.annotation.Autowired;

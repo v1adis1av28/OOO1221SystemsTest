@@ -1,12 +1,9 @@
 package com.test.TestTask.services;
 
 import com.test.TestTask.DTO.*;
-import com.test.TestTask.model.DishIntake;
 import com.test.TestTask.model.Intake;
-import com.test.TestTask.model.User;
 import com.test.TestTask.util.LocalDateSortingComparator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

@@ -6,7 +6,6 @@ import com.test.TestTask.DTO.HistoryDTO;
 import com.test.TestTask.exceptions.DishNotFoundException;
 import com.test.TestTask.exceptions.IllegalRequestParametrException;
 import com.test.TestTask.exceptions.UserNotFoundException;
-import com.test.TestTask.model.DailyReport;
 import com.test.TestTask.services.ReportService;
 import com.test.TestTask.util.ResponseError;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +66,5 @@ public class ReportController {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-// - история питания по дням.
 
 }

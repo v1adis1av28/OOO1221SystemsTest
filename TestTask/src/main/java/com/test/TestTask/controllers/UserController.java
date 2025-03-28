@@ -22,8 +22,6 @@ public class UserController {
 
     private final UserService userService;
 
-    //TODo сделать дто для пользователя + пофиксить dailyReport + добавить туда обработку ошибок
-
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;

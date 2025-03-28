@@ -2,10 +2,8 @@ package com.test.TestTask.controllers;
 
 import com.test.TestTask.exceptions.DishAlreadyExistException;
 import com.test.TestTask.exceptions.DishNotCreatedException;
-import com.test.TestTask.exceptions.UserNotCreatedException;
 import com.test.TestTask.model.Dish;
 import com.test.TestTask.services.DishService;
-import com.test.TestTask.util.ResponseError;
 import com.test.TestTask.util.ResponseError;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

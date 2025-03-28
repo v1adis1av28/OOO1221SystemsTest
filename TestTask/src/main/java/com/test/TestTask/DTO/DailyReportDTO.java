@@ -1,6 +1,5 @@
 package com.test.TestTask.DTO;
 
-import com.test.TestTask.model.DishIntake;
 
 import java.util.List;
 
