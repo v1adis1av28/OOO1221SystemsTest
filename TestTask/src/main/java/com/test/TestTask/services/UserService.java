@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 @Transactional
@@ -31,11 +32,12 @@ public class UserService {
     }
 
     public void save(User user) {
+        validateUser(user);
         user.setDailyCalories((float) Math.ceil(calculateDailyCalories(user)));
         userRepository.save(user);
     }
 
-    private float calculateDailyCalories(User user)
+    protected float calculateDailyCalories(User user)
     {
         if(user.getGender().toString().toLowerCase().equals("male"))
             return (float) (13.75*user.getWeight() + (5 * user.getHeight()) - (6.75* user.getAge()) + 66.473);
@@ -60,6 +62,17 @@ public class UserService {
         dto.setHeight((float) userById.getHeight());
         dto.setWeight((float) userById.getWeight());
         return dto;
+    }
+
+    public void validateUser(User user) {
+        if (user.getAge() <= 0 || user.getWeight() <= 0 || user.getHeight() <= 0) {
+            throw new IllegalArgumentException("Invalid user data");
+        }
+        String emailPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+                + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+        if (!Pattern.matches(emailPattern, user.getEmail())) {
+            throw new IllegalArgumentException("Invalid email format");
+        }
     }
 
     public List<UserDTO> getAllUsers() {
